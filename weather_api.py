@@ -27,6 +27,8 @@ DIRECTION_TRANSFORM = {
 def current_weather(lat, lon):
     """
     Описание функции, входных и выходных переменных
+    Параметры: lat - широта, lon - долгота
+    возвращает список данных состояния погоды
     """
     token = '9e19838123a94461abf203905253011'  # Вставить ваш токен из api.weatherapi.com
     # url = f"https://api.weatherapi.com/v1/current.json?key={token}&q={lat},{lon}"
