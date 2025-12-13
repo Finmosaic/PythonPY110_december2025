@@ -18,7 +18,7 @@ import random
 
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import path
+from django.urls import path, include
 from app_datetime.views import datetime_view, dynamic_datetime_view
 from app_store.views import product_view_json, shop_view
 from app_weather.views import weather_view
@@ -51,7 +51,10 @@ urlpatterns = [
     path('dynamic_rand/', dynamic_random_view),
     path('datetime/', datetime_view),
     path('dynamic_datetime/', dynamic_datetime_view),
-    path('product/', product_view_json),
-    path('', shop_view),
-    path('weather/', weather_view),
+    # path('product/', product_view_json),
+    # path('', shop_view),
+    #path('weather/', weather_view),
+    path('', include('app_store.urls')),
+    path('weather/', include('app_weather.urls')),
 ]
+
