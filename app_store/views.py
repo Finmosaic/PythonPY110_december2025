@@ -1,6 +1,8 @@
 from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 
 from app_store.models import DATABASE
+from app_store.logic.services import filtering_category
+from app_store.logic.control_cart import view_in_cart, add_to_cart, remove_from_cart
 
 
 # def product_view_json(request):
@@ -31,7 +33,18 @@ def product_view_json(request):
             # TODO Если этот id_ есть в базе (DATABASE), то вернуть JsonResponse товара (словаря с характеристиками товара)
             # TODO Иначе вернуть HttpResponseNotFound("Данного продукта нет в базе данных")
 
-        return JsonResponse(DATABASE, json_dumps_params={'ensure_ascii': False,
+        category_key = request.GET.get('category')
+        ordering_key = request.GET.get('ordering')
+        if ordering_key:
+            reverse = request.GET.get('reverse')
+            if reverse and reverse.lower() == 'true':
+                data = filtering_category(DATABASE, category_key, ordering_key, reverse = True)
+            else:
+                data = filtering_category(DATABASE, category_key, ordering_key)
+        else:
+            data = filtering_category(DATABASE, category_key)
+
+        return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False,
                                                          'indent': 4})
 
 
@@ -59,3 +72,41 @@ def product_page_view(request, page):
                           encoding='utf-8') as f:
                     return HttpResponse(f.read())
             return HttpResponse(status=404)
+
+
+
+
+
+def cart_view_json(request):
+    if request.method == "GET":
+        username = ''
+        data = view_in_cart(username) # TODO Вызвать ответственную за это действие функцию view_in_cart(username)
+        return JsonResponse(data, json_dumps_params={'ensure_ascii': False,
+                                                     'indent': 4})
+
+
+def cart_add_view_json(request, id_product):
+    if request.method == "GET":
+        username = ''
+        result = add_to_cart(id_product, username) # TODO Вызвать ответственную за это действие функцию add_to_cart(id_product, username)
+        if result:
+            return JsonResponse({"answer": "Продукт успешно добавлен в корзину"},
+                                json_dumps_params={'ensure_ascii': False})
+
+        return JsonResponse({"answer": "Неудачное добавление в корзину"},
+                            status=404,
+                            json_dumps_params={'ensure_ascii': False})
+
+
+def cart_del_view_json(request, id_product):
+    if request.method == "GET":
+        username = ''
+        result =  remove_from_cart(id_product, username)# TODO Вызвать ответственную за это действие функцию remove_from_cart(id_product, username)
+        if result:
+            return JsonResponse({"answer": "Продукт успешно удалён из корзины"},
+                                json_dumps_params={'ensure_ascii': False})
+
+        return JsonResponse({"answer": "Неудачное удаление из корзины"},
+                            status=404,
+                            json_dumps_params={'ensure_ascii': False})
+
