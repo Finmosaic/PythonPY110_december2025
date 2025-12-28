@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app_datetime',
     'app_store',
     'app_weather',
+    'app_login',
 ]
 
 MIDDLEWARE = [

@@ -316,7 +316,7 @@ python manage.py startapp app_login
 5. В корневом `urls.py` папки `project` пропишем маршрут до приложения `app_login`
 
 ```python
-path('login/', include('app_login.urls')),
+path('login/', include('login.urls')),
 ```
 
 6. Для удобства пропишем ссылку в навигационной панели в `base.html` (приложение `app_store`) на форму авторизации
@@ -570,7 +570,7 @@ from django.contrib.auth.decorators import login_required
 ```
 
 ```python
-@login_required(login_url='app_login:login_view')
+@login_required(login_url='login:login_view')
 ```
 
 ![pic_for_task/img_32.png](pic_for_task/img_32.png)
