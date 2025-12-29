@@ -24,7 +24,7 @@ def wishlist_view(request):
         products = []
         # TODO сформировать список словарей продуктов с их характеристиками. Пройдитесь по id продуктам в data
         #  получите словари с характеристиками продуктов по их id и запишите в список products
-        for product_id in data.keys():
+        for product_id in data:
             if product_id in DATABASE:
                 product = DATABASE[product_id].copy()
                 product["id"] = product_id
