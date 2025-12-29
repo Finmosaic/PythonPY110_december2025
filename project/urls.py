@@ -56,6 +56,7 @@ urlpatterns = [
     #path('weather/', weather_view),
     path('', include('app_store.urls')),
     path('weather/', include('app_weather.urls')),
-    path('', include('app_login.urls'))
+    path('', include('app_login.urls')),
+    path('', include('app_wishlist.urls')),
 ]
 
